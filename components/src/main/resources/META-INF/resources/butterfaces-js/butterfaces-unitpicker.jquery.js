@@ -67,8 +67,12 @@
                             that._hideUnitsPopup();
                         }
                     })
-                    .bind("input propertychange change", function () {
+                    .bind("input propertychange change", function (event) {
                         that._synchValuesToOriginalInput();
+                        if("change" === event.type.toLowerCase()) {
+                            // trigger change event on original for JSF
+                            that._$originalInput.change();
+                        }
                     });
         },
 
@@ -113,6 +117,8 @@
                             that._synchValuesToOriginalInput();
                             // causes popup to hide indirectly
                             that._$clonedInput.blur();
+                            // trigger change event on original for JSF
+                            that._$originalInput.change();
                         })
                         .appendTo($listContainer);
             });
