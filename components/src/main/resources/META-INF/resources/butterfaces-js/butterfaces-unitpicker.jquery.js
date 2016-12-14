@@ -46,9 +46,11 @@
                     .addClass($input.attr("class"))
                     .attr("style", $input.attr("style"))
                     .attr("placeholder", $input.attr("placeholder"))
+                    .attr("autofocus", $input.attr("autofocus"))
                     .attr("type", $input.attr("type"));
             this._$originalInput.before($clonedInput);
             $input.hide();
+
             return $clonedInput;
         },
 
