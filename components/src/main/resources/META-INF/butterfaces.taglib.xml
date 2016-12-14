@@ -643,7 +643,19 @@
         </attribute>
         <attribute>
             <name>value</name>
+            <type>de.larmic.butterfaces.model.unitpicker.UnitPickerValue</type>
             <required>true</required>
+        </attribute>
+        <attribute>
+            <name>unitValues</name>
+            <type>java.util.List</type>
+            <required>true</required>
+            <description>The list of de.larmic.butterfaces.model.unitpicker.UnitValue for the unit selections</description>
+        </attribute>
+        <attribute>
+            <name>preSelectedUnitValue</name>
+            <type>de.larmic.butterfaces.model.unitpicker.UnitValue</type>
+            <required>false</required>
         </attribute>
         <attribute>
             <name>hideLabel</name>

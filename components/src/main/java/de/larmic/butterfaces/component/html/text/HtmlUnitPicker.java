@@ -24,6 +24,7 @@ public class HtmlUnitPicker extends HtmlText {
    public static final String RENDERER_TYPE = "de.larmic.butterfaces.component.renderkit.html_basic.UnitPickerRenderer";
 
    protected static final String PROPERTY_UNIT_VALUES = "unitValues";
+   protected static final String PROPERTY_PRESELECTED_UNIT_VALUE = "preSelectedUnitValue";
 
    public HtmlUnitPicker() {
       super();
@@ -46,5 +47,13 @@ public class HtmlUnitPicker extends HtmlText {
 
    public void setUnitValues(List<UnitValue> unitValues) {
       getStateHelper().put(PROPERTY_UNIT_VALUES, unitValues);
+   }
+
+   public UnitValue getPreSelectedUnitValue() {
+      return (UnitValue) getStateHelper().eval(PROPERTY_PRESELECTED_UNIT_VALUE);
+   }
+
+   public void setPreSelectedUnitValue(UnitValue unitValue) {
+      getStateHelper().put(PROPERTY_PRESELECTED_UNIT_VALUE, unitValue);
    }
 }

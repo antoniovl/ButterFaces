@@ -1,6 +1,7 @@
 package de.larmic.butterfaces.component.showcase.unitpicker;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -8,6 +9,7 @@ import javax.inject.Named;
 import de.larmic.butterfaces.component.showcase.AbstractInputShowcase;
 import de.larmic.butterfaces.component.showcase.example.AbstractCodeExample;
 import de.larmic.butterfaces.component.showcase.example.XhtmlCodeExample;
+import de.larmic.butterfaces.component.showcase.unitpicker.examples.TemporalUnit;
 import de.larmic.butterfaces.util.StringUtils;
 
 @Named
@@ -19,6 +21,8 @@ public class UnitPickerShowcase extends AbstractInputShowcase implements Seriali
 
    private String placeholder = "Enter value...";
    private boolean autoFocus;
+
+   private List<TemporalUnit> unitValues = Arrays.asList(new TemporalUnit("Day"), new TemporalUnit("Month"), new TemporalUnit("Year"));
 
    @Override
    protected Object initValue() {
@@ -76,5 +80,9 @@ public class UnitPickerShowcase extends AbstractInputShowcase implements Seriali
 
    public void setAutoFocus(boolean autoFocus) {
       this.autoFocus = autoFocus;
+   }
+
+   public List<TemporalUnit> getUnitValues() {
+      return unitValues;
    }
 }

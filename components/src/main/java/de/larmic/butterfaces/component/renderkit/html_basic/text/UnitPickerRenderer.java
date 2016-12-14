@@ -1,6 +1,7 @@
 package de.larmic.butterfaces.component.renderkit.html_basic.text;
 
 import java.io.IOException;
+import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -10,6 +11,8 @@ import de.larmic.butterfaces.component.html.text.HtmlUnitPicker;
 import de.larmic.butterfaces.component.partrenderer.InnerComponentWrapperPartRenderer;
 import de.larmic.butterfaces.component.partrenderer.OuterComponentWrapperPartRenderer;
 import de.larmic.butterfaces.component.partrenderer.RenderUtils;
+import de.larmic.butterfaces.model.unitpicker.UnitPickerValue;
+import de.larmic.butterfaces.model.unitpicker.UnitValue;
 
 @FacesRenderer(componentFamily = HtmlUnitPicker.COMPONENT_FAMILY, rendererType = HtmlUnitPicker.RENDERER_TYPE)
 public class UnitPickerRenderer extends AbstractHtmlTagRenderer<HtmlUnitPicker> {
@@ -63,13 +66,30 @@ public class UnitPickerRenderer extends AbstractHtmlTagRenderer<HtmlUnitPicker> 
 
    private String createJQueryPluginCall(HtmlUnitPicker unitPicker) {
       final StringBuilder jQueryPluginCall = new StringBuilder();
+      final UnitPickerValue unitPickerValue = (UnitPickerValue) unitPicker.getValue();
 
       jQueryPluginCall.append("unitpicker({");
 
-      jQueryPluginCall.append("inputValue: 80,");
-      jQueryPluginCall.append("unitEntries: [\"Tage\", \"Monate\", \"Jahre\"],");
-      jQueryPluginCall.append("selectedUnitEntry: \"Monate\"");
+      if (unitPicker.getPreSelectedUnitValue() != null && unitPickerValue.getValue() == null) {
+         jQueryPluginCall.append("selectedUnitEntry: \"").append(unitPicker.getPreSelectedUnitValue().getValue()).append("\",");
+      } else if (unitPicker.getValue() != null) {
+         jQueryPluginCall.append("inputValue: \"").append(unitPickerValue.getValue()).append("\",");
+         jQueryPluginCall.append("selectedUnitEntry: \"").append(unitPickerValue.getUnitValue().getValue()).append("\",");
+      }
+
+      jQueryPluginCall.append("unitEntries: ").append(renderUnitValuesString(unitPicker.getUnitValues())).append(",");
+
       jQueryPluginCall.append("})");
       return jQueryPluginCall.toString();
+   }
+
+   private String renderUnitValuesString(List<UnitValue> unitValues) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("[");
+      for (UnitValue unitValue : unitValues) {
+         sb.append("\"").append(unitValue.getValue()).append("\",");
+      }
+      sb.append("]");
+      return sb.toString();
    }
 }
