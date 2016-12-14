@@ -5,15 +5,15 @@
  */
 package de.larmic.butterfaces.component.partrenderer;
 
+import java.io.IOException;
+import javax.faces.component.UIComponent;
+import javax.faces.context.ResponseWriter;
+
 import de.larmic.butterfaces.component.base.renderer.HtmlBasicRenderer;
 import de.larmic.butterfaces.component.html.InputComponentFacet;
 import de.larmic.butterfaces.component.html.feature.HideLabel;
 import de.larmic.butterfaces.component.html.feature.Readonly;
 import de.larmic.butterfaces.component.html.feature.SupportedFacets;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.ResponseWriter;
-import java.io.IOException;
 
 /**
  * @author Lars Michaelis
@@ -48,7 +48,8 @@ public class InnerComponentWrapperPartRenderer {
             final SupportedFacets supportedFacets = (SupportedFacets) component;
             if (hasLeftInputGroup(component, supportedFacets)
                     || hasRightInputGroup(component, supportedFacets)
-                    || supportedFacets.getSupportedFacets().contains(InputComponentFacet.CALENDAR)) {
+                    || supportedFacets.getSupportedFacets().contains(InputComponentFacet.CALENDAR)
+                    || supportedFacets.getSupportedFacets().contains(InputComponentFacet.UNIT_PICKER)) {
                 componentStyleClass.append(" input-group");
             }
         }
