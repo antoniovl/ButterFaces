@@ -5,16 +5,16 @@
  */
 package de.larmic.butterfaces.component.partrenderer;
 
-import de.larmic.butterfaces.component.base.renderer.HtmlBasicRenderer;
-import de.larmic.butterfaces.component.html.HtmlCheckBox;
-import de.larmic.butterfaces.component.html.HtmlInputComponent;
-import de.larmic.butterfaces.util.StringUtils;
-
+import java.io.IOException;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
-import java.io.IOException;
+
+import de.larmic.butterfaces.component.base.renderer.HtmlBasicRenderer;
+import de.larmic.butterfaces.component.html.HtmlCheckBox;
+import de.larmic.butterfaces.component.html.HtmlInputComponent;
+import de.larmic.butterfaces.util.StringUtils;
 
 /**
  * @author Lars Michaelis
@@ -43,8 +43,7 @@ public class ReadonlyPartRenderer {
     }
 
     /**
-     * Should return value string for the readonly view mode. Can be overridden
-     * for custom components.
+     * Should return value string for the readonly view mode.
      */
     private String getReadonlyDisplayValue(final Object value, final UIInput component, final Converter converter) {
         if (value == null || "".equals(value)) {
@@ -52,6 +51,11 @@ public class ReadonlyPartRenderer {
         } else if (converter != null) {
             final String asString = converter.getAsString(FacesContext.getCurrentInstance(), component, value);
             return asString == null ? "-" : asString;
+        }
+
+        String customValue = generateCustomDisplayValue( value,  component);
+        if (customValue != null) {
+            return customValue;
         }
 
         if (component instanceof HtmlCheckBox) {
@@ -65,5 +69,13 @@ public class ReadonlyPartRenderer {
         }
 
         return String.valueOf(value);
+    }
+
+    /**
+     * Possibility to genarate a custom value after null check and when no converter is present.
+     * Intended to be overridden.
+     */
+    protected String generateCustomDisplayValue(final Object value, final UIInput component) {
+        return null;
     }
 }

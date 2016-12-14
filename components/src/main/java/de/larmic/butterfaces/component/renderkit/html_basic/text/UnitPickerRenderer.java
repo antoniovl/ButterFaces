@@ -12,6 +12,7 @@ import de.larmic.butterfaces.component.html.text.HtmlUnitPicker;
 import de.larmic.butterfaces.component.partrenderer.InnerComponentWrapperPartRenderer;
 import de.larmic.butterfaces.component.partrenderer.OuterComponentWrapperPartRenderer;
 import de.larmic.butterfaces.component.partrenderer.RenderUtils;
+import de.larmic.butterfaces.component.partrenderer.UnitPickerReadonlyPartRenderer;
 import de.larmic.butterfaces.model.unitpicker.UnitPickerValue;
 import de.larmic.butterfaces.model.unitpicker.UnitValue;
 
@@ -59,10 +60,15 @@ public class UnitPickerRenderer extends AbstractHtmlTagRenderer<HtmlUnitPicker> 
             writer.writeText(RenderUtils.createJQueryPluginCall(component.getClientId(), ".input-group", createJQueryPluginCall(unitPicker)), null);
             writer.endElement("script");
          }
-
-         // Open outer component wrapper div
-         new OuterComponentWrapperPartRenderer().renderComponentEnd(writer);
       }
+
+      // Open outer component wrapper div
+      new OuterComponentWrapperPartRenderer().renderComponentEnd(writer);
+   }
+
+   @Override
+   protected void encodeReadonly(HtmlUnitPicker htmlComponent, ResponseWriter writer) throws IOException {
+      new UnitPickerReadonlyPartRenderer().renderReadonly(htmlComponent, writer);
    }
 
    @Override
