@@ -2,6 +2,7 @@ package de.larmic.butterfaces.component;
 
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javax.el.ValueExpression;
 import javax.faces.FactoryFinder;
@@ -18,7 +19,7 @@ import javax.faces.el.ValueBinding;
  */
 public final class MessageFactory {
 
-   public static final String REQUIRED_MESSAGE_ID = "de.larmic.butterfaces.component.value.REQUIRED";
+   private static final String BUTTER_FACES_MESSAGES = "ButterFacesMessages";
 
    private MessageFactory() {
       // do nothing
@@ -72,15 +73,67 @@ public final class MessageFactory {
     *
     * @return a localized <code>FacesMessage</code> with the severity of FacesMessage.SEVERITY_ERROR
     */
-   public static FacesMessage getMessage(Locale locale,
-                                         String messageId,
-                                         Object... params) {
-      ResourceBundle bundle = ResourceBundle.getBundle("Messages", locale);
-
-      String summary = bundle.getString(messageId);
+   static FacesMessage getMessage(Locale locale,
+                                  String messageId,
+                                  Object... params) {
+      String summary = null;
       String detail = null;
-      if (bundle.containsKey(messageId + "_detail")) {
-         detail = bundle.getString(messageId + "_detail");
+      ResourceBundle bundle;
+      String bundleName;
+
+      // see if we have a user-provided bundle
+      Application app = getApplication();
+      Class appClass = app.getClass();
+      if (null != (bundleName = app.getMessageBundle())) {
+         if (null !=
+               (bundle =
+                     ResourceBundle.getBundle(bundleName, locale,
+                           getCurrentLoader(appClass)))) {
+            // see if we have a hit
+            try {
+               summary = bundle.getString(messageId);
+               detail = bundle.getString(messageId + "_detail");
+            } catch (MissingResourceException e) {
+               // ignore
+            }
+         }
+      }
+
+      // we couldn't find a summary in the user-provided bundle
+      // check the ButterFaces resources
+      if (summary == null) {
+         // see if we have a summary in the app provided bundle
+         bundle = ResourceBundle.getBundle(BUTTER_FACES_MESSAGES,
+               locale,
+               getCurrentLoader(appClass));
+         if (null == bundle) {
+            throw new NullPointerException();
+         }
+         // see if we have a hit
+         try {
+            summary = bundle.getString(messageId);
+         } catch (MissingResourceException e) {
+            return null;
+         }
+      }
+
+      // no hit found in the ButterFaces bundle.
+      // so check the standard javax.faces.Messages bundle.
+      if (null == summary) {
+         // see if we have a summary in the app provided bundle
+         bundle = ResourceBundle.getBundle(FacesMessage.FACES_MESSAGES,
+               locale,
+               getCurrentLoader(appClass));
+         if (null == bundle) {
+            throw new NullPointerException();
+         }
+         // see if we have a hit
+         try {
+            summary = bundle.getString(messageId);
+            detail = bundle.getString(messageId + "_detail");
+         } catch (MissingResourceException e) {
+            // ignore
+         }
       }
 
       // At this point, we have a summary and a bundle.

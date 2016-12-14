@@ -31,6 +31,8 @@ public class HtmlUnitPicker extends HtmlText {
    protected static final String PROPERTY_UNIT_VALUES = "unitValues";
    protected static final String PROPERTY_PRESELECTED_UNIT_VALUE = "preSelectedUnitValue";
 
+   private static final String REQUIRED_MESSAGE_ID = "de.larmic.butterfaces.component.unitpicker.REQUIRED";
+
    public HtmlUnitPicker() {
       super();
       this.setRendererType(RENDERER_TYPE);
@@ -54,16 +56,14 @@ public class HtmlUnitPicker extends HtmlText {
                || unitPickerValue.getUnitValue() == null
                || StringUtils.isEmpty(unitPickerValue.getUnitValue().getValue())) {
             String requiredMessageStr = getRequiredMessage();
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                  requiredMessageStr,
-                  requiredMessageStr);
+            FacesMessage message;
             if (null != requiredMessageStr) {
                message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                      requiredMessageStr,
                      requiredMessageStr);
             } else {
                message =
-                     MessageFactory.getMessage(context, MessageFactory.REQUIRED_MESSAGE_ID,
+                     MessageFactory.getMessage(context, REQUIRED_MESSAGE_ID,
                            MessageFactory.getLabel(
                                  context, this));
             }
