@@ -2,12 +2,17 @@ package de.larmic.butterfaces.component.html.text;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import javax.faces.component.FacesComponent;
+import javax.faces.context.FacesContext;
 
+import de.larmic.butterfaces.component.MessageFactory;
 import de.larmic.butterfaces.component.html.InputComponentFacet;
+import de.larmic.butterfaces.model.unitpicker.UnitPickerValue;
 import de.larmic.butterfaces.model.unitpicker.UnitValue;
+import de.larmic.butterfaces.util.StringUtils;
 
 @ResourceDependencies({
       @ResourceDependency(library = "butterfaces-dist-css", name = "butterfaces-default.css", target = "head"),
@@ -39,6 +44,38 @@ public class HtmlUnitPicker extends HtmlText {
    @Override
    public List<InputComponentFacet> getSupportedFacets() {
       return Arrays.asList(InputComponentFacet.UNIT_PICKER);
+   }
+
+   @Override
+   protected void validateValue(FacesContext context, Object newValue) {
+      if (newValue != null && isRequired()) {
+         UnitPickerValue unitPickerValue = (UnitPickerValue) newValue;
+         if (isValueEmpty(unitPickerValue.getValue())
+               || unitPickerValue.getUnitValue() == null
+               || StringUtils.isEmpty(unitPickerValue.getUnitValue().getValue())) {
+            String requiredMessageStr = getRequiredMessage();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                  requiredMessageStr,
+                  requiredMessageStr);
+            if (null != requiredMessageStr) {
+               message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                     requiredMessageStr,
+                     requiredMessageStr);
+            } else {
+               message =
+                     MessageFactory.getMessage(context, MessageFactory.REQUIRED_MESSAGE_ID,
+                           MessageFactory.getLabel(
+                                 context, this));
+            }
+            context.addMessage(getClientId(context), message);
+            setValid(false);
+         }
+      }
+      super.validateValue(context, newValue);
+   }
+
+   private boolean isValueEmpty(Object value) {
+      return value == null || value instanceof String && "".equals(value);
    }
 
    public List<UnitValue> getUnitValues() {
