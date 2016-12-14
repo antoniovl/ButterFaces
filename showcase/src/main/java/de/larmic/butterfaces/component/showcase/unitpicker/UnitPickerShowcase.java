@@ -10,6 +10,7 @@ import de.larmic.butterfaces.component.showcase.AbstractInputShowcase;
 import de.larmic.butterfaces.component.showcase.example.AbstractCodeExample;
 import de.larmic.butterfaces.component.showcase.example.XhtmlCodeExample;
 import de.larmic.butterfaces.component.showcase.unitpicker.examples.TemporalUnit;
+import de.larmic.butterfaces.model.unitpicker.UnitPickerValue;
 import de.larmic.butterfaces.util.StringUtils;
 
 @Named
@@ -22,7 +23,7 @@ public class UnitPickerShowcase extends AbstractInputShowcase implements Seriali
    private String placeholder = "Enter value...";
    private boolean autoFocus;
 
-   private List<TemporalUnit> unitValues = Arrays.asList(new TemporalUnit("Day"), new TemporalUnit("Month"), new TemporalUnit("Year"));
+   private List<TemporalUnit> unitValues = Arrays.asList(new TemporalUnit("Days"), new TemporalUnit("Months"), new TemporalUnit("Years"));
 
    @Override
    protected Object initValue() {
@@ -31,7 +32,12 @@ public class UnitPickerShowcase extends AbstractInputShowcase implements Seriali
 
    @Override
    public String getReadableValue() {
-      return (String) this.getValue();
+      if (getValue() == null) {
+         return null;
+      } else {
+         UnitPickerValue unitPickerValue = (UnitPickerValue) getValue();
+         return unitPickerValue.getValue() + " " + unitPickerValue.getUnitValue().getValue();
+      }
    }
 
    @Override

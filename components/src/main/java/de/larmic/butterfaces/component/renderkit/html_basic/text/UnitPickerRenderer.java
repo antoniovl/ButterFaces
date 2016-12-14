@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.convert.ConverterException;
 import javax.faces.render.FacesRenderer;
 
 import de.larmic.butterfaces.component.html.text.HtmlUnitPicker;
@@ -62,6 +63,34 @@ public class UnitPickerRenderer extends AbstractHtmlTagRenderer<HtmlUnitPicker> 
          // Open outer component wrapper div
          new OuterComponentWrapperPartRenderer().renderComponentEnd(writer);
       }
+   }
+
+   @Override
+   public Object getConvertedValue(final FacesContext context,
+                                   final UIComponent component,
+                                   final Object submittedValue) throws ConverterException {
+      if (submittedValue == null || "".equals(submittedValue)) {
+         return null;
+      }
+
+      final String submittedStringValue = (String) submittedValue;
+      final HtmlUnitPicker unitPicker = (HtmlUnitPicker) component;
+
+      final String[] valuePair = submittedStringValue.split("\\|");
+      final String submittedUnitStringValue = valuePair[1];
+      UnitValue submittedUnitValue = null;
+      for (UnitValue unitValue : unitPicker.getUnitValues()) {
+         if (unitValue.getValue().equals(submittedUnitStringValue)) {
+            submittedUnitValue = unitValue;
+            break;
+         }
+      }
+
+      if (submittedUnitValue == null) {
+         throw new ConverterException("couldn't find unitValue for '" + submittedUnitStringValue + "'");
+      }
+
+      return new UnitPickerValue(valuePair[0], submittedUnitValue);
    }
 
    private String createJQueryPluginCall(HtmlUnitPicker unitPicker) {

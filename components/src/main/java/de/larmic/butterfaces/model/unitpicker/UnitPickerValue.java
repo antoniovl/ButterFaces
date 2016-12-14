@@ -54,7 +54,7 @@ public class UnitPickerValue {
    public String toString() {
       final StringBuffer sb = new StringBuffer("UnitPickerValue{");
       sb.append("value=").append(value);
-      sb.append(", unitValue=").append(unitValue);
+      sb.append(", unitValue=").append(unitValue.getValue());
       sb.append('}');
       return sb.toString();
    }
