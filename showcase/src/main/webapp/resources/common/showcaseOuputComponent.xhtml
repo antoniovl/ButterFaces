@@ -1,42 +1,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://butterfaces.org/components"
 	  xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:composite="http://java.sun.com/jsf/composite" 
-	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+	  xmlns:composite="http://java.sun.com/jsf/composite" >
 
 <h:body>
 	<composite:interface>
 		<composite:attribute name="component"
-                             type="de.larmic.butterfaces.component.showcase.AbstractInputShowcase"
+                             type="org.butterfaces.component.showcase.AbstractInputShowcase"
                              required="true" />
         <composite:attribute name="activeComponentNavigationId"
                              type="java.lang.String"
                              required="true" />
 	</composite:interface>
 
-	<composite:implementation>
-        <composite:insertChildren />
-
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+    <composite:implementation>
+        <composite:insertChildren/>
 
         <hr/>
 
         <div class="row outputComponent">
             <div class="col-md-2">
-                <h:commandButton value="submit"
-                                 styleClass="btn btn-success"
-                                 action="#{cc.attrs.component.submit}"/>
+                <b:commandLink value="submit"
+                               glyphicon="fa fa-envelope-o"
+                               styleClass="btn btn-outline-secondary"
+                               action="#{cc.attrs.component.submit}">
+                    <b:tooltip>
+                        Submit the above component.
+                    </b:tooltip>
+                </b:commandLink>
 
             </div>
             <h:panelGroup id="outputValues" styleClass="col-md-10">
-                <div class="input-group">
-                    <span class="input-group-addon">Value:</span>
-                    <h:outputText value="#{cc.attrs.component.value}" styleClass="form-control arquillian_output_value"/>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">Readable value:</span>
-                    <h:outputText value="#{cc.attrs.component.readableValue}" styleClass="form-control arquillian_output_readableValue"/>
-                </div>
+                <b:text value="#{cc.attrs.component.value}" label="Value" readonly="true" />
+                <b:text value="#{cc.attrs.component.readableValue}" label="Readable value" readonly="true" rendered="#{cc.attrs.component.readableValueSupported}" />
             </h:panelGroup>
         </div>
 
@@ -45,6 +41,6 @@
                 setActiveNavigation('#{cc.attrs.activeComponentNavigationId}');
             });
         </script>
-	</composite:implementation>
+    </composite:implementation>
 </h:body>
 </html>

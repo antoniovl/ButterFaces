@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.larmic.butterfaces</groupId>
+    <groupId>org.butterfaces</groupId>
     <artifactId>butterfaces</artifactId>
-    <version>2.1.21-SNAPSHOT</version>
+    <version>3.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>ButterFaces</name>
@@ -61,25 +61,26 @@
         <project.build.sourceEncoding>${default.encoding}</project.build.sourceEncoding>
         <maven.version>3.0.0</maven.version>
 
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- dependency versions -->
-        <javax.javaee-api.version>7.0</javax.javaee-api.version>
-        <jsf.version>2.2.12</jsf.version>
+        <javax.javaee-api.version>8.0</javax.javaee-api.version>
+        <el-api.version>3.0.0</el-api.version>
+        <javax.faces-api.version>2.3</javax.faces-api.version>
 
         <!-- maven plugin dependency version -->
         <maven-release-plugin.version>2.5</maven-release-plugin.version>
         <maven-embedded-glassfish-plugin.version>3.1</maven-embedded-glassfish-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <junit.version>4.11</junit.version>
-        <el-api.version>2.2</el-api.version>
 
-        <version.wildfly.swarm>2017.1.1</version.wildfly.swarm>
-        <version.jbossas>10.0.0.Final</version.jbossas>
-        <mockito-all.version>1.10.19</mockito-all.version>
-        <javax.faces-api.version>2.2</javax.faces-api.version>
-        <assertj-core.version>2.1.0</assertj-core.version>
+        <!-- wildfly -->
+        <version.wildfly.swarm>2018.3.3</version.wildfly.swarm>
+
+        <!-- testing -->
+        <junit.version>4.12</junit.version>
+        <mockito.version>2.15.0</mockito.version>
+        <assertj-core.version>3.9.1</assertj-core.version>
     </properties>
 
     <build>
@@ -93,7 +94,7 @@
                     <mavenExecutorId>forked-path</mavenExecutorId>
                     <useReleaseProfile>false</useReleaseProfile>
                     <arguments>-D${gpg.arguments}</arguments>
-                    <releaseProfiles>sonatype-oss-release,nodejs-all,showcase-wildfly-swarm</releaseProfiles>
+                    <releaseProfiles>sonatype-oss-release,nodejs-all,showcase-docker</releaseProfiles>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
@@ -106,7 +107,6 @@
             <modules>
                 <module>components</module>
                 <module>showcase</module>
-                <module>test</module>
             </modules>
         </profile>
         <profile>
@@ -155,7 +155,7 @@
             </dependency>
             <dependency>
                 <groupId>javax.el</groupId>
-                <artifactId>el-api</artifactId>
+                <artifactId>javax.el-api</artifactId>
                 <version>${el-api.version}</version>
                 <scope>provided</scope>
             </dependency>
@@ -165,18 +165,12 @@
                 <version>${javax.faces-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.faces</groupId>
-                <artifactId>jsf-impl</artifactId>
-                <version>${jsf.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>de.larmic.butterfaces</groupId>
+                <groupId>org.butterfaces</groupId>
                 <artifactId>components</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>de.larmic.butterfaces</groupId>
+                <groupId>org.butterfaces</groupId>
                 <artifactId>showcase</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
@@ -190,8 +184,8 @@
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>${mockito-all.version}</version>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

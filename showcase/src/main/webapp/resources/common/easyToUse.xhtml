@@ -3,14 +3,14 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:b="http://butterfaces.org/components"
-        >
+>
 
 <h:body>
     <composite:interface>
     </composite:interface>
 
     <composite:implementation>
-        <div class="panel panel-simple">
+        <div class="panel panel-simple panel-documentation ease-to-use">
             <div class="panel-heading">Easy to use</div>
             <div class="panel-body">
                 <p>
@@ -22,15 +22,34 @@
                 </h5>
                 <h5>
                     <small>You can easily use maven to add ButterFaces to your application as it is available in
-                        <a
-                                href="http://search.maven.org/#search%7Cga%7C1%7Cbutterfaces"
-                                target="_blank">maven central respository</a>.
+                        <a href="http://search.maven.org/#search%7Cga%7C1%7Cbutterfaces"
+                           target="_blank">maven central respository</a>.
                     </small>
                 </h5>
+
                 <div class="maven-example">
-                    <small>Use</small>
-                    <b:prettyprint language="xml">#{dependencyExample.butterFacesMavenDependency}</b:prettyprint>
-                    <small>to activate all components</small>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#v3" role="tab" aria-controls="home" aria-selected="true">3.x</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#v3JEE7" role="tab" aria-controls="profile" aria-selected="false">3.x JEE7</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#v2" role="tab" aria-controls="contact" aria-selected="false">2.x</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="v3" role="tabpanel" aria-labelledby="home-tab">
+                            <b:prettyprint language="xml">#{dependencyExample.butterFacesMavenDependency}</b:prettyprint>
+                        </div>
+                        <div class="tab-pane fade" id="v3JEE7" role="tabpanel" aria-labelledby="profile-tab">
+                            <b:prettyprint language="xml">#{dependencyExample.butterFacesV3JEE7MavenDependency}</b:prettyprint>
+                        </div>
+                        <div class="tab-pane fade" id="v2" role="tabpanel" aria-labelledby="contact-tab">
+                            <b:prettyprint language="xml">#{dependencyExample.butterFacesV2MavenDependency}</b:prettyprint>
+                        </div>
+                    </div>
                 </div>
 
                 <p>

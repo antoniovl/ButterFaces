@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.larmic.butterfaces</groupId>
+        <groupId>org.butterfaces</groupId>
         <artifactId>butterfaces</artifactId>
-        <version>2.1.21-SNAPSHOT</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>showcase</artifactId>
@@ -18,15 +18,8 @@
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
         </dependency>
-        <!-- for debugging -->
         <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>2.2.12</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.larmic.butterfaces</groupId>
+            <groupId>org.butterfaces</groupId>
             <artifactId>components</artifactId>
         </dependency>
         <dependency>
